@@ -22,17 +22,16 @@ public class Drive : MonoBehaviour {
 
         // Move translation along the object's z-axis
         transform.Translate(0, 0, translation);
-        // transform.Translate(0, 0, speed * Time.deltaTime);
-
+        
         // Rotate around our y-axis
         transform.Rotate(0, rotation, 0);
 
         if (Input.GetKey(KeyCode.T)) {
 
-            transGun.RotateAround(transGun.position, transGun.right, -2.0f);
+            transGun.RotateAround(transGun.position, transGun.right, -20.0f*Time.deltaTime);
         } else if (Input.GetKey(KeyCode.G)) {
 
-            transGun.RotateAround(transGun.position, transGun.right, 2.0f);
+            transGun.RotateAround(transGun.position, transGun.right, 20.0f*Time.deltaTime);
         } else if (Input.GetKeyDown(KeyCode.B)) {
 
             Instantiate(bulletObj, gun.position, gun.rotation);

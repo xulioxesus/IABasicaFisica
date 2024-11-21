@@ -9,30 +9,46 @@ public class FireShell : MonoBehaviour {
     public GameObject enemy;
     public Transform turretBase;
 
-    private float speed = 15.0f;
-    private float rotSpeed = 5.0f;
-    private float moveSpeed = 1.0f;
+    private float speed = 15.0f; // Velocidade da bala
+    private float rotSpeed = 5.0f; // Velocidade de rotación do tanque
+    private float moveSpeed = 1.0f; // Velocidade lineal do tanque
 
-    static float delayReset = 0.2f;
-    float delay = delayReset;
+    static float delayReset = 0.2f; // Tempo entre disparos
+    float delay = delayReset; // Tempo ata o seguinte disparo
 
+    /// <summary>
+    /// Crea unha bala
+    /// </summary>
     void CreateBullet() {
 
+        //Instancia o prefab shell
         GameObject shell = Instantiate(bullet, turret.transform.position, turret.transform.rotation);
+
+        //Establece a velocidade inicial da bala
         shell.GetComponent<Rigidbody>().linearVelocity = speed * turretBase.forward;
     }
 
+    /// <summary>
+    /// Rota a torreta no eixe X
+    /// </summary>
+    /// <returns></returns>
     float? RotateTurret() {
 
-        float? angle = CalculateAngle(false);
+        float? angle = CalculateAngle(true);
 
         if (angle != null) {
 
+            //Faise a rotación da torreta
             turretBase.localEulerAngles = new Vector3(360.0f - (float)angle, 0.0f, 0.0f);
         }
         return angle;
     }
 
+    /// <summary>
+    /// Calcula o ángulo da traxectoria para impactar ao
+    /// </summary>
+    /// <param name="low">Indica se queremos o ángulo menor</param>
+    /// <returns>O ángulo necesario para a traxectoria da bala</returns>
     float? CalculateAngle(bool low) {
 
         Vector3 targetDir = enemy.transform.position - this.transform.position;
@@ -57,47 +73,27 @@ public class FireShell : MonoBehaviour {
 
     void Update() {
 
+        //Para comprobar se pode disparar novamente
         delay -= Time.deltaTime;
+
+        //Establece a rotación do tanque necesaria para orientarse hacia o player
+        //Rota suavemente utilizando Quaternion.Slerp
+        //Os Quaternions utilízanse para representar rotacións
         Vector3 direction = (enemy.transform.position - this.transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0.0f, direction.z));
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, lookRotation, Time.deltaTime * rotSpeed);
+
+
+        //Rota a torreta
         float? angle = RotateTurret();
 
         if (angle != null && delay <= 0.0f) {
-
+            //Se o ángulo da traxectoria é posible e xa pasou o tempo de espera para disparar, dispara
             CreateBullet();
             delay = delayReset;
         } else {
-
+            //Move o tanque cara adiante
             this.transform.Translate(0.0f, 0.0f, Time.deltaTime * moveSpeed);
         }
     }
-
-    //Vector3 CalculateTrajectory() {
-
-    //    Vector3 p = enemy.transform.position - this.transform.position;
-    //    Vector3 v = enemy.transform.forward * enemy.GetComponent<Drive>().speed;
-    //    float s = bullet.GetComponent<MoveShell>().speed;
-
-    //    float a = Vector3.Dot(v, v) - s * s;
-    //    float b = Vector3.Dot(p, v);
-    //    float c = Vector3.Dot(p, p);
-    //    float d = b * b - a * c;
-
-    //    if (d < 0.1f) return Vector3.zero;
-
-    //    float sqrt = Mathf.Sqrt(d);
-    //    float t1 = (-b - sqrt) / c;
-    //    float t2 = (-b + sqrt) / c;
-
-    //    float t = 0.0f;
-    //    if (t1 < 0.0f && t2 < 0.0f) return Vector3.zero;
-    //    else if (t1 < 0.0f) t = t2;
-    //    else if (t2 < 0.0f) t = t1;
-    //    else {
-
-    //        t = Mathf.Max(new float[] { t1, t2 });
-    //    }
-    //    return t * p + v;
-    //}
 }
