@@ -7,7 +7,8 @@ using UnityEngine;
 // - Move con os eixes de Input: "Vertical" para adiante/atrás e "Horizontal" para xirar.
 // - As teclas T/G inclinan o canón arredor do seu eixo local.
 // - B dispara instanciando o prefab `bulletObj` na posición e rotación de `gun`.
-public class TanksDrive : MonoBehaviour {
+public class TanksPlayerController : MonoBehaviour
+{
     // Velocidade de translación en unidades por segundo (adiante/atrás).
     public float speed = 10.0f;
 
@@ -23,7 +24,8 @@ public class TanksDrive : MonoBehaviour {
     // Prefab da bala a instanciar ao disparar.
     public GameObject bulletObj;
 
-    void Update() {
+    void Update()
+    {
         // Lemos os eixes de Input estándar de Unity (configurados en Edit > Project Settings > Input):
         // "Vertical" normalmente está ligado a W/S ou frechas arriba/abaixo; devolve [-1,1].
         // "Horizontal" normalmente está ligado a A/D ou frechas esquerda/dereita; devolve [-1,1].
@@ -37,18 +39,23 @@ public class TanksDrive : MonoBehaviour {
 
         // Movemos o transform local ao longo do eixo Z (adiante/atrás) segundo `translation`.
         transform.Translate(0, 0, translation);
-        
+
         // Rotamos ao redor do eixo Y local (xiro da base do tanque).
         transform.Rotate(0, rotation, 0);
 
         // Control do canón: T inclina cara abaixo, G inclina cara arriba.
         // RotateAround usa transGun.position como punto de rotación e transGun.right
         // como eixo local (x do transform do canón).
-        if (Input.GetKey(KeyCode.T)) {
-            transGun.RotateAround(transGun.position, transGun.right, -20.0f*Time.deltaTime);
-        } else if (Input.GetKey(KeyCode.G)) {
-            transGun.RotateAround(transGun.position, transGun.right, 20.0f*Time.deltaTime);
-        } else if (Input.GetKeyDown(KeyCode.B)) {
+        if (Input.GetKey(KeyCode.T))
+        {
+            transGun.RotateAround(transGun.position, transGun.right, -20.0f * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.G))
+        {
+            transGun.RotateAround(transGun.position, transGun.right, 20.0f * Time.deltaTime);
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
             // Disparo: instanciamos unha bala na posición e rotación de `gun`.
             Instantiate(bulletObj, gun.position, gun.rotation);
         }

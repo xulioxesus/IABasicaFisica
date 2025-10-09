@@ -6,7 +6,7 @@ using UnityEngine;
 // - Calcula unha aceleración inicial a partir de forza/masa.
 // - Aplica drag á velocidade horizontal e unha aceleración vertical por gravidade.
 // - Ao colidir con algo etiquetado como "tank" instancia un efecto de explosión e destrúe o proxectil.
-public class TanksShell : MonoBehaviour {
+public class TanksShellPhysicsSimulated : MonoBehaviour {
 
     // Prefab do efecto de explosión ao impactar nun tanque.
     public GameObject explosion;

@@ -6,7 +6,7 @@ using UnityEngine;
 // - Calcula un ángulo de tiro para alcanzar ao `enemy` dependendo da velocidade da bala e da gravidade.
 // - Rota a base do inimigo cara ao obxectivo e rota o canón segundo o ángulo calculado.
 // - Dispara un prefab `bullet` establecendo a súa velocidade inicial.
-public class TanksFireShell : MonoBehaviour {
+public class TanksNPCController : MonoBehaviour {
 
     // Prefab da bala a instanciar ao disparar.
     public GameObject bullet;

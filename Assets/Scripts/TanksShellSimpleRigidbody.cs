@@ -5,7 +5,7 @@ using UnityEngine;
 // Script para o comportamento dun proxectil controlado por IA.
 // - Ao colidir cun obxecto etiquetado como "tank" crea unha explosión e destrúe a bala.
 // - Mantén o forward do proxectil segundo a súa velocidade lineal para que apunte na dirección do movemento.
-public class TanksTanksAIShell : MonoBehaviour {
+public class TanksShellSimpleRigidbody : MonoBehaviour {
 
     // Prefab do efecto de explosión a instanciar ao impactar nun tanque.
     public GameObject explosion; 

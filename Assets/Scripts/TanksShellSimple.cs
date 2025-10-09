@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Script sinxelo para mover un proxectil (shell) adiante no seu eixo local Z.
 // A velocidade determína pola variable pública `speed` (unidades por segundo).
-public class TanksMoveShell : MonoBehaviour {
+public class TanksShellSimple : MonoBehaviour {
 
     // Velocidade de movemento (unidades por segundo).
     public float speed = 1.0f;
